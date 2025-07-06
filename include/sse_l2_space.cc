@@ -76,7 +76,11 @@ void test_l2_space() {
   float* datas = generate_embs(data_num, dim);
   std::unordered_map<int, std::vector<float>> data_map;
   for (size_t i = 0; i < data_num; ++i) {
-    data_map[i] = std::vector<float>(datas + i * dim, datas + (i + 1) * dim);
+    data_map[i] = std::vector<float>();
+    for (size_t j = 0; j < dim; ++j) {
+      data_map[i].push_back(*datas);
+      datas += 1;
+    }
   }
 
   float* res = (float*)malloc(data_num * sizeof(float));
