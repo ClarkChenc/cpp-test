@@ -67,7 +67,7 @@ float* generate_embs(size_t data_num, size_t dim) {
 
 void test_l2_space() {
   size_t dim = 128;
-  size_t data_num = 1227;
+  size_t data_num = 100;
   data_num *= 10000;
 
   float* query = generate_embs(1, dim);

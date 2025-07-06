@@ -1,11 +1,14 @@
 #include <iostream>
 #include <chrono>
+#include <unordered_map>
+#include <vector>
+
 #include "utils.h"
 
 void test_pq_dis() {
-  size_t subspace_num = 32;
-  size_t cluster_num = 256;
-  size_t query_num = 1227;
+  size_t subspace_num = 128;
+  size_t cluster_num = 64;
+  size_t query_num = 100;
   query_num *= 10000;
 
   uint16_t* matrix = (uint16_t*)malloc(subspace_num * cluster_num * sizeof(int16_t));
@@ -14,18 +17,27 @@ void test_pq_dis() {
     matrix[i] = i;
   }
 
-  uint8_t* encodes = (uint8_t*)malloc(query_num * subspace_num * sizeof(uint8_t));
-  for (size_t i = 0; i < query_num * subspace_num; ++i) {
-    encodes[i] = i % 256;
-    ;
+  // uint8_t* encodes = (uint8_t*)malloc(query_num * subspace_num * sizeof(uint8_t));
+  // for (size_t i = 0; i < query_num * subspace_num; ++i) {
+  //   encodes[i] = i % 256;
+  // }
+
+  std::unordered_map<int, std::vector<uint8_t>> encode_map;
+  for (size_t i = 0, k = 0; i < query_num; ++i) {
+    encode_map[i] = std::vector<uint8_t>();
+    for (size_t j = 0; j < subspace_num; ++j, ++k) {
+      encode_map[i].push_back(k % 256);
+    }
   }
 
   uint16_t* res = (uint16_t*)malloc(query_num * sizeof(uint16_t));
+  // uint8_t* encode
 
   auto s_search = std::chrono::steady_clock::now();
   for (size_t i = 0; i < query_num; ++i) {
     auto* matrix_ptr = matrix;
-    auto* cur_encode = encodes + i * subspace_num;
+    // auto* cur_encode = encodes + i * subspace_num;
+    auto* cur_encode = encode_map[i].data();
 
     uint16_t ret1 = 0;
     uint16_t ret2 = 0;
