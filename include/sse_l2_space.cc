@@ -2,6 +2,8 @@
 #include <iostream>
 #include <random>
 #include <chrono>
+#include <unordered_map>
+#include <vector>
 
 #include <xmmintrin.h>
 #include <pmmintrin.h>
@@ -72,12 +74,16 @@ void test_l2_space() {
 
   float* query = generate_embs(1, dim);
   float* datas = generate_embs(data_num, dim);
+  std::unordered_map<int, std::vector<float>> data_map;
+  for (size_t i = 0; i < data_num; ++i) {
+    data_map[i] = std::vector<float>(datas + i * dim, datas + (i + 1) * dim);
+  }
 
   float* res = (float*)malloc(data_num * sizeof(float));
 
   auto s_search = std::chrono::steady_clock::now();
   for (size_t i = 0; i < data_num; ++i) {
-    res[i] = L2SqrSIMD16ExtSSE(query, &datas[i * dim], &dim);
+    res[i] = L2SqrSIMD16ExtSSE(query, &data_map[i], &dim);
   }
   auto e_search = std::chrono::steady_clock::now();
 
