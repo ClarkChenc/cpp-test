@@ -2,7 +2,7 @@
 #include <chrono>
 #include "utils.h"
 
-void test_read_metrix() {
+void test_pq_dis() {
   size_t subspace_num = 32;
   size_t cluster_num = 256;
   size_t query_num = 1227;

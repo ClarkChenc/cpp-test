@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "BUILD": "python",
+        "chrono": "cpp"
+    }
+}

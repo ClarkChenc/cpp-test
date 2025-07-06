@@ -65,7 +65,7 @@ float* generate_embs(size_t data_num, size_t dim) {
   return embs;
 }
 
-void l2_space_test() {
+void test_l2_space() {
   size_t dim = 128;
   size_t data_num = 1227;
   data_num *= 10000;

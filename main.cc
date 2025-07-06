@@ -8,7 +8,7 @@
 #include "pq_dis.h"
 
 int main() {
-  l2_space_test();
-  // test_read_metrix();
+  test_l2_space();
+  test_pq_dis();
   return 0;
 }
