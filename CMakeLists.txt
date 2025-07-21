@@ -6,8 +6,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../bin)
 
 # set(FORBID_EIGEN "-DEIGEN_DONT_VECTORIZE -DEIGEN_DISABLE_UNALIGNED_ARRAY_ASSERT")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3 -pthread -march=x86-64  -msse3")
-add_compile_options(-msse3)
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -pthread -march=x86-64  -msse3 -mavx2")
+add_compile_options(-msse3 -mavx2)
 
 # OpenMP
 find_package(OpenMP)
