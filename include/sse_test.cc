@@ -1,4 +1,3 @@
-#include "sse_test.h"
 
 #include <immintrin.h>
 #include <xmmintrin.h>
