@@ -1,1 +1,0 @@
-void test_sse_l2_space();
