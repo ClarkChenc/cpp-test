@@ -96,5 +96,5 @@ void test_l2_space() {
     sum += res[i];
   }
   std::cout << "sum : " << sum << std::endl;
-  std::cout << "cost: " << time_cost(s_search, e_search) / 1000000 << " ms" << std::endl;
+  std::cout << "sse l2 cost: " << time_cost(s_search, e_search) / 1000000 << " ms" << std::endl;
 }

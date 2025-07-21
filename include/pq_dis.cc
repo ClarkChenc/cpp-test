@@ -75,15 +75,15 @@ void test_pq_dis() {
     // auto* cur_encode = encodes + i * subspace_num;
     auto* cur_encode = encode_map[i].data();
 
-    // uint16_t ret1 = 0;
-    // uint16_t ret2 = 0;
-    // for (size_t j = 0; j < subspace_num; j += 2) {
-    //   ret1 += matrix_ptr[j * cluster_num + cur_encode[j]];
-    //   ret2 += matrix_ptr[(j + 1) * cluster_num + cur_encode[j + 1]];
-    // }
-    // res[i] = ret1 + ret2;
+    uint16_t ret1 = 0;
+    uint16_t ret2 = 0;
+    for (size_t j = 0; j < subspace_num; j += 2) {
+      ret1 += matrix_ptr[j * cluster_num + cur_encode[j]];
+      ret2 += matrix_ptr[(j + 1) * cluster_num + cur_encode[j + 1]];
+    }
+    res[i] = ret1 + ret2;
 
-    res[i] = get_pq_dis(matrix_ptr, cur_encode, subspace_num, cluster_num);
+    // res[i] = get_pq_dis(matrix_ptr, cur_encode, subspace_num, cluster_num);
   }
 
   auto e_search = std::chrono::steady_clock::now();
@@ -93,5 +93,5 @@ void test_pq_dis() {
     sum += res[i];
   }
   std::cout << "sum: " << sum << std::endl;
-  std::cout << "cost: " << time_cost(s_search, e_search) / 1000000 << " ms" << std::endl;
+  std::cout << "pq cost: " << time_cost(s_search, e_search) / 1000000 << " ms" << std::endl;
 }

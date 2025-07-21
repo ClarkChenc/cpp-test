@@ -9,8 +9,8 @@
 #include "sse_test.h"
 
 int main() {
-  // test_l2_space();
-  // test_pq_dis();
-  sse_test();
+  test_l2_space();
+  test_pq_dis();
+  // sse_test();
   return 0;
 }
