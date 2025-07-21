@@ -34,6 +34,19 @@
     }                                                                                                        \
   } while (0)
 
+#define GET_PQ_DIS_PLANE(dis, p_vec1, p_vec2, subspace_num, cluster_num)         \
+  do {                                                                           \
+    uint16_t* __matrix_ptr = (uint16_t*)(p_vec1);                                \
+    uint8_t* __cur_encode = (uint8_t*)(p_vec2);                                  \
+    uint16_t __ret1 = 0;                                                         \
+    uint16_t __ret2 = 0;                                                         \
+    for (size_t __j = 0; __j < (subspace_num); __j += 2) {                       \
+      __ret1 += __matrix_ptr[(__j) * (cluster_num) + __cur_encode[__j]];         \
+      __ret2 += __matrix_ptr[(__j + 1) * (cluster_num) + __cur_encode[__j + 1]]; \
+    }                                                                            \
+    (dis) = __ret1 + __ret2;                                                     \
+  } while (0)
+
 int horizontal_add_epi32(__m128i v) {
   __m128i sum = _mm_hadd_epi32(v, v);  // [x0+x1, x2+x3, x0+x1, x2+x3]
   sum = _mm_hadd_epi32(sum, sum);      // [x0+x1+x2+x3, ...]
@@ -115,7 +128,7 @@ void test_pq_dis() {
     // res[i] = get_pq_dis_plane(matrix_ptr, cur_encode, subspace_num, cluster_num);
     // res[i] = get_pq_dis(matrix_ptr, cur_encode, subspace_num, cluster_num);
 
-    GET_PQ_DIS(res[i], matrix_ptr, cur_encode, subspace_num, cluster_num);
+    GET_PQ_DIS_PLANE(res[i], matrix_ptr, cur_encode, subspace_num, cluster_num);
   }
 
   auto e_search = std::chrono::steady_clock::now();
