@@ -1,1 +1,1 @@
-void test_l2_space();
+void test_sse_l2_space();
