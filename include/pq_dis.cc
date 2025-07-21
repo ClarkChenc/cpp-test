@@ -40,6 +40,18 @@ uint16_t get_pq_dis(const void* p_vec1, const void* p_vec2, size_t subspace_num,
 
   return dis;
 }
+uint16_t get_pq_dis_plane(const void* p_vec1, const void* p_vec2, size_t subspace_num, size_t cluster_num) {
+  uint16_t* matrix_ptr = (uint16_t*)p_vec1;
+  uint8_t* cur_encode = (uint8_t*)p_vec2;
+
+  uint16_t ret1 = 0;
+  uint16_t ret2 = 0;
+  for (size_t j = 0; j < subspace_num; j += 2) {
+    ret1 += matrix_ptr[j * cluster_num + cur_encode[j]];
+    ret2 += matrix_ptr[(j + 1) * cluster_num + cur_encode[j + 1]];
+  }
+  return ret1 + ret2;
+}
 
 void test_pq_dis() {
   size_t subspace_num = 128;
@@ -74,15 +86,7 @@ void test_pq_dis() {
     auto* matrix_ptr = matrix;
     // auto* cur_encode = encodes + i * subspace_num;
     auto* cur_encode = encode_map[i].data();
-
-    uint16_t ret1 = 0;
-    uint16_t ret2 = 0;
-    for (size_t j = 0; j < subspace_num; j += 2) {
-      ret1 += matrix_ptr[j * cluster_num + cur_encode[j]];
-      ret2 += matrix_ptr[(j + 1) * cluster_num + cur_encode[j + 1]];
-    }
-    res[i] = ret1 + ret2;
-
+    res[i] = get_pq_dis_plane(matrix_ptr, cur_encode, subspace_num, cluster_num);
     // res[i] = get_pq_dis(matrix_ptr, cur_encode, subspace_num, cluster_num);
   }
 
